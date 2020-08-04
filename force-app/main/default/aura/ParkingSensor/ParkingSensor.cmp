@@ -1,0 +1,35 @@
+<aura:component controller = "ParkingSensorController" implements = "flexipage:availableForAllPageTypes,force:appHostable,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" >
+    <aura:attribute name="filetype" type="List" default="['.csv']" />
+    <aura:attribute name="disabled" type="Boolean" default="true" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name = "columns" type="List"/>
+    <aura:attribute name="Sensor" type="Object"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:layout class="slds-align_absolute-center slds-size_2-of-2 layout" >
+        
+        <lightning:card title="{!v.title}" class="slds-card slds-size_x-large">
+            <aura:set attribute="title">
+                <lightning:formattedText value="Parking Sensors" class="slds-text-color_weak slds-align_absolute-center" style="font-size:xx-large; padding: 5% "/> 
+            </aura:set>
+            
+            <div class="slds-p-around_large" > 
+                <div class="slds-align_absolute-center slds-p-bottom_xx-large">      
+                    <lightning:fileUpload label="Attach file"
+                                          name="fileUploader"
+                                          multiple="false"
+                                          accept="{!v.filetype}"
+                                          recordId="{!v.recordId}"
+                                          onuploadfinished="{!c.handleUploadFinished}" />
+                </div> 
+                
+                <lightning:datatable columns="{!v.columns}" 
+                                     keyField="Id" 
+                                     showRowNumberColumn="true" 
+                                     hideCheckboxColumn="true" 
+                                     data="{!v.Sensor}"
+                                     /> 
+            </div> 
+        </lightning:card>
+    </lightning:layout>
+</aura:component>
