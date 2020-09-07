@@ -1,9 +1,10 @@
 <aura:component controller = "ParkingSensorController" implements = "flexipage:availableForAllPageTypes,force:appHostable,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" >
     <aura:attribute name="filetype" type="List" default="['.csv']" />
-    <aura:attribute name="disabled" type="Boolean" default="true" />
+    <aura:attribute name="disabled" type="Boolean" />
     <aura:attribute name="recordId" type="String" />
     <aura:attribute name = "columns" type="List"/>
     <aura:attribute name="Sensor" type="Object"/>
+    <aura:attribute name="viewTable" type="Boolean"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <lightning:layout class="slds-align_absolute-center slds-size_2-of-2 layout" >
@@ -20,15 +21,20 @@
                                           multiple="false"
                                           accept="{!v.filetype}"
                                           recordId="{!v.recordId}"
-                                          onuploadfinished="{!c.handleUploadFinished}" />
+                                          onuploadfinished="{!c.handleUploadFinished}"
+                                          disabled="{!v.disabled}" />
                 </div> 
-                
+                <aura:if isTrue="{!v.viewTable}"> 
                 <lightning:datatable columns="{!v.columns}" 
                                      keyField="Id" 
                                      showRowNumberColumn="true" 
                                      hideCheckboxColumn="true" 
                                      data="{!v.Sensor}"
                                      /> 
+                <aura:set attribute="else">
+                        You cannot view data
+                 </aura:set>
+                 </aura:if> 
             </div> 
         </lightning:card>
     </lightning:layout>

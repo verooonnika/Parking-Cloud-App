@@ -1,5 +1,6 @@
 ({
     doInit : function(component, event, helper){
+        helper.checkUploadAccess(component);
         helper.refreshTable(component);
     },
     

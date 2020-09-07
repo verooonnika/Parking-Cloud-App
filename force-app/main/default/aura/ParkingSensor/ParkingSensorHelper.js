@@ -11,13 +11,32 @@
             action.setCallback(this, function(response){
             var state = response.getState();
             if(state == "SUCCESS"){
+               component.set("v.viewTable", true);
             var rows = response.getReturnValue();
             for (var i = 0; i < rows.length; i++) {
             rows[i].Base_Station__c = rows[i].Base_Station__r.Name;
                       } 
                       component.set("v.Sensor", rows);
+    } 
+    else if(state == "ERROR"){
+        component.set("v.viewTable", false);
     }
 });
 $A.enqueueAction(action);
-}
+},
+
+ checkUploadAccess : function(component){
+     var action = component.get("c.checkCreateUpdateAccess");
+     action.setCallback(this, function(response){
+        var state = response.getState();
+         if(state == 'SUCCESS'){
+             component.set("v.disabled", false);
+         }
+         else if(state == 'ERROR'){
+            component.set("v.disabled", true);
+         }
+     });
+     $A.enqueueAction(action);
+
+ }
 })
