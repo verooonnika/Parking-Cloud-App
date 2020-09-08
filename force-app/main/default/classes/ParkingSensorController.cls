@@ -3,7 +3,9 @@ public class ParkingSensorController {
     @AuraEnabled
     public static List<Sensor__c> getSensorList(){
         if (!(Schema.sObjectType.Sensor__c.isAccessible() || Schema.sObjectType.Base_Station__c.isAccessible())) { 
-            throw new AuraHandledException('No access');
+            AuraHandledException e = new AuraHandledException('No access');
+            e.setMessage('No access');
+            throw e;
         }
         
         String [] requiredFields = new String [] {'Name', 'Base_Station__c', 'Model__c', 'Status__c'};
@@ -12,7 +14,9 @@ public class ParkingSensorController {
         
         for(String fieldName: requiredFields){ 
             if(!sensorFields.get(fieldName).getDescribe().isAccessible()){
-                throw new AuraHandledException('No access');
+                AuraHandledException e = new AuraHandledException('No access');
+                e.setMessage('No access');
+                throw e;
             }
         }
         
@@ -33,7 +37,9 @@ public class ParkingSensorController {
         
         if (!(Schema.sObjectType.Sensor__c.isCreateable() || Schema.sObjectType.Base_Station__c.isCreateable()
               || Schema.sObjectType.Sensor__c.isUpdateable() || Schema.sObjectType.Base_Station__c.isUpdateable())) { 
-                  throw new AuraHandledException('No Access');
+                AuraHandledException e = new AuraHandledException('No access');
+                e.setMessage('No access');
+                throw e;
               }
         
         Map<String,Schema.SObjectField> sensorFields = Schema.SObjectType.Sensor__c.fields.getMap();
@@ -43,7 +49,9 @@ public class ParkingSensorController {
             
             for(String fieldName: requiredSensorFields){
                 if(!(sensorFields.get(fieldName).getDescribe().isCreateable() || sensorFields.get(fieldName).getDescribe().isUpdateable())){
-                    throw new AuraHandledException('No Access');
+                    AuraHandledException e = new AuraHandledException('No access');
+                    e.setMessage('No access');
+                    throw e;
                 }
             }
         
@@ -51,7 +59,9 @@ public class ParkingSensorController {
             
             for(String fieldName: requiredStationFields){ 
                 if(!(stationFields.get(fieldName).getDescribe().isCreateable() || stationFields.get(fieldName).getDescribe().isUpdateable())){
-                    throw new AuraHandledException('No Access');
+                    AuraHandledException e = new AuraHandledException('No access');
+                    e.setMessage('No access');
+                    throw e;
                 }
             }
     }
